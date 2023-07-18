@@ -61,7 +61,7 @@ def delete_url(url):
     if shortened_urls.pop(url) != -1:
         return 'deleted'
     else:
-        return {"error":"unknown url"}
+        return {"error":"Unknown url"}
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=delete_expired_urls, trigger="interval", seconds=60)
 scheduler.start()

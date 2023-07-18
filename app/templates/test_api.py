@@ -21,4 +21,4 @@ print(resp.text)
 try:
     print(resp.json())
 except Exception:
-    print('Not valid JSON')
+    print('Not valid Json')
