@@ -62,7 +62,6 @@ def delete_url(url):
         return 'deleted'
     else:
         return {"error":"unknown url"}
-
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=delete_expired_urls, trigger="interval", seconds=60)
 scheduler.start()
