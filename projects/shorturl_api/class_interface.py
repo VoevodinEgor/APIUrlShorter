@@ -7,38 +7,40 @@ from flask import redirect, Flask
 
 app = Flask(__name__, template_folder='templates')
 
-class Formal_url_shorter_interface(ABC):
+class FormalUrlShorterInterface(ABC):
     @abstractmethod
-    def get_url(self):
+    def get(self):
         pass
-    def set_url(self):
+    @abstractmethod
+    def set(self):
         pass
-    def delete_url(self):
+    @abstractmethod
+    def delete(self):
         pass
 
-class Url_shorter_sql(Formal_url_shorter_interface):
+class UrlShorterSql(FormalUrlShorterInterface):
     
     @app.route('/shorts/<url>', methods=['GET'])
-    def get_url(self, short_url: str) -> str:
+    def get(self, short_url: str) -> str:
         pass
     
     @app.route('/shorts', methods=['POST'])
-    def set_url(self, url: str) -> None:
+    def set(self, url: str) -> None:
         pass
 
     @app.route('/shorts/<url>', methods=['DELETE'])
-    def delete_url(self, short_url: str) -> None:
+    def delete(self, short_url: str) -> None:
         pass
 
-class Url_shorter_dict(Formal_url_shorter_interface):
+class UrlShorterDict(FormalUrlShorterInterface):
     shortened_urls = {}
 
     @app.route('/shorts/<url>', methods=['GET'])
-    def get_url(self, short_url: str) -> str:
+    def get(self, short_url: str) -> str:
         pass
     
     @app.route('/shorts', methods=['POST'])
-    def set_url(self, url: str, lenght = 6) -> str:
+    def set(self, url: str, lenght = 6) -> str:
         chars = string.ascii_letters + string.digits
         short_url = ''.join(random.choice(chars) for _ in range(lenght))
         while short_url in self.shortened_urls:
@@ -54,7 +56,7 @@ class Url_shorter_dict(Formal_url_shorter_interface):
         return {"url": short_url}
 
     @app.route('/shorts/<url>', methods=['DELETE'])
-    def delete_url(self, short_url: str) -> None:
+    def delete(self, short_url: str) -> None:
         if self.shortened_urls.pop(url) != -1:
             return 'deleted'
         else:
